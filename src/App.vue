@@ -2,7 +2,7 @@
   <div id="app">
     <div id="nav">
       <router-link :to="{ name: 'product' }">Product</router-link> |
-      <router-link :to="{ name: 'productdetail', params: { id: 123 } }"
+      <router-link :to="{ name: 'productdetail', params: { id: 456 } }"
         >Detail</router-link
       >
       | <router-link :to="{ name: 'cart' }">Cart</router-link> |
