@@ -32,7 +32,7 @@ export default {
 };
 </script>
 
-<style scope>
+<style scoped>
 h1 {
   border-bottom: 1px solid #41b883;
   margin: 0;
