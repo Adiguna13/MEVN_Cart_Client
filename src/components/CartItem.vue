@@ -1,6 +1,10 @@
 <template>
   <div class="product-container">
-    <img :src="item.imageUrl" alt="" class="product-image" />
+    <img
+      :src="`http://localhost:8000${item.imageUrl}`"
+      alt=""
+      class="product-image"
+    />
     <div class="details-wrap">
       <h3>{{ item.name }}</h3>
       <p>RP. {{ item.price }}</p>

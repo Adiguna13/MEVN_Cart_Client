@@ -2,11 +2,7 @@
   <div>
     <div id="page-wrap">
       <h1>Shopping Cart</h1>
-      <CartItem
-        v-for="item in cartItems"
-        :key="item.id"
-        :item="item"
-      />
+      <CartItem v-for="item in cartItems" :key="item.id" :item="item" />
       <h3 id="total-price">Total: Rp. {{ totalPrice }}</h3>
       <button id="checkout-button">Checkout</button>
     </div>
@@ -14,21 +10,33 @@
 </template>
 
 <script>
-import { cartItems } from "../../data-seed";
-import CartItem from "../../components/CartItem.vue"
+// import { cartItems } from "../../data-seed";
+import axios from "axios";
+import CartItem from "../../components/CartItem.vue";
 export default {
   components: {
-    CartItem
+    CartItem,
   },
   data() {
     return {
-      cartItems,
+      cartItems: [],
     };
   },
   computed: {
     totalPrice() {
       return this.cartItems.reduce((sum, item) => sum + Number(item.price), 0);
     },
+  },
+  async created() {
+    const result = await axios.get(`http://localhost:8000/api/orders/user/1`);
+    let data = Object.assign(
+      {},
+      ...result.data.map((result) => ({
+        cart_items: result.products,
+      }))
+    );
+    this.cartItems = data.cart_items;
+    // this.cartItems = result.data.products;
   },
 };
 </script>
@@ -47,5 +55,4 @@ h1 {
 #checkout-button {
   width: 100%;
 }
-
 </style>
