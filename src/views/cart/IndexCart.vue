@@ -2,7 +2,14 @@
   <div>
     <div id="page-wrap">
       <h1>Shopping Cart</h1>
-      <CartItem v-for="item in cartItems" :key="item.id" :item="item" />
+      <CartItem
+        v-for="item in cartItems"
+        :key="item.id"
+        :item="item"
+        v-on:remove-item="removeFromCart($event)"
+      />
+      <!-- $event variable ke dua dari emit -->
+
       <h3 id="total-price">Total: Rp. {{ totalPrice }}</h3>
       <button id="checkout-button">Checkout</button>
     </div>
@@ -25,6 +32,20 @@ export default {
   computed: {
     totalPrice() {
       return this.cartItems.reduce((sum, item) => sum + Number(item.price), 0);
+    },
+  },
+  methods: {
+    async removeFromCart(product) {
+      await axios.delete(
+        `http://localhost:8000/api/orders/user/1/product/${product}`
+      );
+      let indexCart = this.cartItems
+        .map(function (item) {
+          return item.code;
+        })
+        .indexOf(product);
+      this.cartItems.splice(indexCart, 1);
+      // console.log("cart");
     },
   },
   async created() {
